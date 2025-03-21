@@ -1,58 +1,161 @@
 # Agrotoxico API
 
-## Running the application in dev mode
+API for managing pesticides, enabling the consultation, creation, updating, and removal of records, as well as filtered queries by commercial name and formulation type.
 
-```shell script
-./mvnw quarkus:dev
+## Configuration
+
+### Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone [https://github.com/marcosguida/agrotoxico-api.git](https://github.com/marcosguida/agrotoxico-api.git)
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd agrotoxico-api
+    ```
+
+3. Compile and run the project:
+
+    ```bash
+    mvn clean install
+    mvn quarkus:dev
+    ```
+
+4. Access the API - Quarkus Dev UI `http://localhost:8080`.
+
+## ENUM
+
+### Class TipoFormulação
+
+```ENUM
+    SOLUCAO,
+    SUSPENSAO,
+    EMULSAO,
+    GRANULADO
+```
+## Endpoints
+
+### `GET /api/agrotoxico`
+
+Returns a list of all registered pesticides.
+
+*Response:*
+
+```json
+[
+  {
+    "id": 1,
+    "nomeComercial": "AgroX",
+    "tipoFormulacao": "SOLUCAO"
+  }
+]
 ```
 
-or 
+### `GET /api/agrotoxico/{id}`
 
-```shell script
-mvn quarkus:dev
+id: The pesticide ID.
+
+*Response:*
+
+```JSON
+
+{
+  "id": 1,
+  "nomeComercial": "AgroX",
+  "tipoFormulacao": "SOLUCAO"
+}
+
 ```
 
-> **_NOTE:_** Quarkus Dev UI <http://localhost:8080/q/dev/>.
+### `GET /api/agrotoxico/nome/{nomeComercial}`
 
-## Packaging and running the application
+nomeComercial: The pesticide's commercial name.
 
-The application can be packaged using:
+*Response:*
 
-```shell script
-./mvnw package
+```JSON
+
+[
+  {
+    "id": 1,
+    "nomeComercial": "AgroX",
+    "tipoFormulacao": "SOLUCAO"
+  }
+]
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### `GET /api/agrotoxico/formulacao/{tipoFormulacao}`
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+tipoFormulacao: The formulation type (e.g., SOLUCAO, SUSPENSAO).
 
-If you want to build an _über-jar_, execute the following command:
+*Response:*
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```JSON
+
+[
+  {
+    "id": 1,
+    "nomeComercial": "AgroX",
+    "tipoFormulacao": "SOLUCAO"
+  }
+]
+```
+### `POST /api/agrotoxico`
+
+*Request Body:*
+
+```JSON
+
+{
+  "nomeComercial": "AgroX",
+  "tipoFormulacao": "SOLUCAO"
+}
+
+```
+*Response:*
+
+```JSON
+
+{
+  "id": 1,
+  "nomeComercial": "AgroX",
+  "tipoFormulacao": "SOLUCAO"
+}
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+### `PUT /api/agrotoxico/{id}`
 
-## Creating a native executable
+id: The pesticide ID to update.
 
-You can create a native executable using:
+*Request Body:*
 
-```shell script
-./mvnw package -Dnative
+```JSON
+
+{
+  "nomeComercial": "AgroX Updated",
+  "tipoFormulacao": "SUSPENSAO"
+}
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+*Response:*
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+```JSON
+
+{
+  "id": 1,
+  "nomeComercial": "AgroX Updated",
+  "tipoFormulacao": "SUSPENSAO"
+}
 ```
 
-## Related Guides
+### `DELETE /api/agrotoxico/{id}`
 
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- Hibernate ORM ([guide](https://quarkus.io/guides/hibernate-orm)): Define your persistent model with Hibernate ORM and Jakarta Persistence
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
+id: The pesticide ID to delete.
+
+*Response:*
+
+``Status code 204 No Content``
