@@ -24,8 +24,8 @@ API for managing pesticides, enabling the consultation, creation, updating, and 
     mvn clean install
     mvn quarkus:dev
     ```
-
-4. Access the API - Quarkus Dev UI `http://localhost:8080`.
+    
+4. Access the API - Quarkus Dev UI http://localhost:8080
 
 ## ENUM
 
