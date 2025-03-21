@@ -6,7 +6,7 @@ API for managing pesticides, enabling the consultation, creation, updating, and 
 
 ### Installation
 
-1. Clone the repository:
+1. Cloning:
 
     ```bash
     git clone [https://github.com/marcosguida/agrotoxico-api.git](https://github.com/marcosguida/agrotoxico-api.git)
@@ -57,8 +57,6 @@ Returns a list of all registered pesticides.
 
 ### `GET /api/agrotoxico/{id}`
 
-id: The pesticide ID.
-
 *Response:*
 
 ```JSON
@@ -72,8 +70,6 @@ id: The pesticide ID.
 ```
 
 ### `GET /api/agrotoxico/nome/{nomeComercial}`
-
-nomeComercial: The pesticide's commercial name.
 
 *Response:*
 
@@ -106,7 +102,7 @@ tipoFormulacao: The formulation type (e.g., SOLUCAO, SUSPENSAO).
 ```
 ### `POST /api/agrotoxico`
 
-*Request Body:*
+*Request:*
 
 ```JSON
 
@@ -129,9 +125,7 @@ tipoFormulacao: The formulation type (e.g., SOLUCAO, SUSPENSAO).
 
 ### `PUT /api/agrotoxico/{id}`
 
-id: The pesticide ID to update.
-
-*Request Body:*
+*Request:*
 
 ```JSON
 
@@ -154,11 +148,18 @@ id: The pesticide ID to update.
 
 ### `DELETE /api/agrotoxico/{id}`
 
-id: The pesticide ID to delete.
-
 *Response:*
 
 ``Status code 204 No Content``
 
-@autor
-Marcos Ribeiro Guida
+<table>
+    @Autor
+  <tr>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/105091587?s=96&v=4" width="100px;" alt="Marcos Ribeiro Profile Picture"/><br>
+        <sub>
+          <b>MARCOS RIBEIRO GUIDA</b>
+        </sub>
+      </a>
+    </td>
