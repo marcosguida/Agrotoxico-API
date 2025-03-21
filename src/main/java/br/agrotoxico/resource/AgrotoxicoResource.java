@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
 
-@Path("/api/agrotoxicos")
+@Path("/api/agrotoxico")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AgrotoxicoResource {
@@ -49,7 +49,7 @@ public class AgrotoxicoResource {
     @POST
     public Response create(@Valid AgrotoxicoDTO dto) {
         AgrotoxicoResponseDTO agrotoxico = service.create(dto);
-        return Response.created(URI.create("/api/agrotoxicos/" + agrotoxico.id())).entity(agrotoxico).build();
+        return Response.created(URI.create("/api/agrotoxico/" + agrotoxico.id())).entity(agrotoxico).build();
     }
 
     @PUT
