@@ -159,3 +159,6 @@ id: The pesticide ID to delete.
 *Response:*
 
 ``Status code 204 No Content``
+
+@autor
+Marcos Ribeiro Guida
