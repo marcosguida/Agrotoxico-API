@@ -1,6 +1,5 @@
 package br.agrotoxico.model;
 
-import br.agrotoxico.model.TipoFormulacao;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,12 +10,16 @@ public class Agrotoxico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 300)
     private String nomeComercial;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoFormulacao tipoFormulacao;
+
+    @ManyToOne
+    @JoinColumn(name = "fabricante_id", nullable = false)
+    private Fabricante fabricante;
 
     public Long getId() {
         return id;
@@ -40,5 +43,13 @@ public class Agrotoxico {
 
     public void setTipoFormulacao(TipoFormulacao tipoFormulacao) {
         this.tipoFormulacao = tipoFormulacao;
+    }
+
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
     }
 }

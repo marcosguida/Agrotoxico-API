@@ -35,7 +35,7 @@ public class AgrotoxicoResource {
     @GET
     @Path("/nome/{nomeComercial}")
     public Response findByNomeComercial(@PathParam("nomeComercial") String nomeComercial) {
-        List<AgrotoxicoResponseDTO> agrotoxicos = service.findByNomeComercial(nomeComercial);
+        AgrotoxicoResponseDTO agrotoxicos = service.findByNomeComercial(nomeComercial);
         return Response.ok(agrotoxicos).build();
     }
 

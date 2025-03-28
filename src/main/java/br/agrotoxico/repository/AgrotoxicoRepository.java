@@ -13,7 +13,7 @@ public class AgrotoxicoRepository implements PanacheRepository<Agrotoxico> {
         return list("nomeComercial LIKE ?1", "%" + nomeComercial + "%");
     }
 
-    public List<Agrotoxico> findByTipoFormulacao(String tipoFormulacao) {
-        return list("tipoFormulacao = ?1", TipoFormulacao.valueOf(null, tipoFormulacao));
+    public List<Agrotoxico> findByTipoFormulacao(TipoFormulacao tipoFormulacao) {
+        return list("tipoFormulacao", tipoFormulacao);
     }
 }
