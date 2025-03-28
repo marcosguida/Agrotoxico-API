@@ -230,11 +230,11 @@ GRANULADO
 ``Status code 204 No Content``
 
 ## Validation Constraints
-- Commercial Name (Agrotoxico): Cannot be blank
-- Formulation Type (Agrotoxico): Cannot be null
-- Manufacturer ID (Agrotoxico): Cannot be null
-- Manufacturer Name: Cannot be blank
-- Manufacturer CNPJ: Cannot be blank
+- Commercial Name (Agrotoxico): `Cannot be blank`
+- Formulation Type (Agrotoxico): `Cannot be null`
+- Manufacturer ID (Agrotoxico): `Cannot be null`
+- Manufacturer Name: `Cannot be blank`
+- Manufacturer CNPJ: `Cannot be blank`
 
 ## Author
 <table>
