@@ -1,0 +1,136 @@
+@startuml
+
+abstract class Pessoa {
+  nome: String
+  email: String
+  senha: String
+  ativo: Boolean
+}
+
+class PessoaFisica {
+  cpf: String
+  rg: String
+  dataNascimento: Date
+}
+
+class PessoaJuridica {
+  cnpj: String
+  inscricaoEstadual: String
+  razaoSocial: String
+}
+
+class Cliente {
+  dataCadastro: Date
+}
+
+class UsuarioAdministrador {
+  cargo: String
+  departamento: String
+  nivelAcesso: String
+}
+
+class Endereco {
+  logradouro: String
+  numero: String
+  complemento: String
+  bairro: String
+  cidade: String
+  estado: String
+  cep: String
+  pais: String
+  enderecoEntrega: Boolean
+  enderecoPrincipal: Boolean
+}
+
+class Telefone {
+  ddd: Integer
+  numero: String
+  tipo: String
+  telefonePrincipal: Boolean
+}
+
+class Fabricante {
+  id: Long
+  nome: String
+  cnpj: String
+  telefone: String
+  email: String
+}
+
+class Produto {
+  id: Long
+  nome: String
+  descricao: String
+  codigoBarras: String
+  tipoFormulacao: TipoFormulacao
+}
+
+class Fornecedor {
+  id: Long
+  nome: String
+  cnpj: String
+  telefone: String
+  email: String
+  website: String
+}
+
+class Estoque {
+  id: Long
+  quantidade: Integer
+  dataEntrada: Date
+  dataValidade: Date
+  lote: String
+  precoCompra: Double
+  precoVenda: Double
+}
+
+class LogAcesso {
+  id: Long 
+  dataHora: Date 
+  enderecoIp: String 
+  tipoLog: TipoLog 
+  descricao: String 
+}
+
+enum TipoFormulacao {
+  SOLUCAO
+  SUSPENSAO
+  EMULSAO
+  GRANULADO
+}
+
+enum TipoLog {
+  INFO
+  ALERTA
+  ERRO
+  DEBUG
+  ACESSO
+}
+
+Pessoa <|-- PessoaFisica
+Pessoa <|-- PessoaJuridica
+PessoaFisica <|-- Cliente
+PessoaJuridica <|-- Cliente
+PessoaJuridica <|-- UsuarioAdministrador
+
+Pessoa "1" *-- "*" Endereco : possui >
+Pessoa "1" *-- "*" Telefone : possui >
+Fabricante "1" o-- "*" Produto : produz >
+Fornecedor "1" ..> "*" Estoque : fornece >
+Produto "1" -- "*" Estoque : referencia >
+
+UsuarioAdministrador "1" o-- "*" LogAcesso : gera >
+
+' Notas
+note top of Cliente
+  Cliente pode ser Pessoa Física ou Jurídica
+  Acesso restrito: apenas CRUD da própria conta
+end note
+
+note top of UsuarioAdministrador
+  Usuário Administrador é sempre Pessoa Jurídica
+  Acesso completo: CRUD de produtos, estoque,
+  fabricantes e fornecedores
+end note
+
+@enduml
