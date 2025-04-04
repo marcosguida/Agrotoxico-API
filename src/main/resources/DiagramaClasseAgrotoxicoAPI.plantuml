@@ -146,7 +146,7 @@ enum NivelSeveridade {
   ERRO
 }
 
-' Herança de DefaultEntity
+' Heranças 
 DefaultEntity <|-- Pessoa
 DefaultEntity <|-- Endereco
 DefaultEntity <|-- Telefone
@@ -158,12 +158,13 @@ DefaultEntity <|-- LogAcesso
 DefaultEntity <|-- LogAuditoria
 DefaultEntity <|-- LogErro
 
-' Herança de Pessoa
 Pessoa <|-- PessoaFisica
 Pessoa <|-- PessoaJuridica
 PessoaFisica <|-- Cliente
 PessoaJuridica <|-- Cliente
 PessoaJuridica <|-- UsuarioAdministrador
+
+' Relacionamentos
 
 Pessoa "1" *-- "*" Endereco : possui >
 Pessoa "1" *-- "*" Telefone : possui >

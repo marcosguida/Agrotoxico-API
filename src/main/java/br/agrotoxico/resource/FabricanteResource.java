@@ -43,7 +43,7 @@ public class FabricanteResource {
     }
 
     @POST
-    public Response create(FabricanteDTO dto) {
+    public Response create(@Valid FabricanteDTO dto) {
         return Response.status(Response.Status.CREATED).entity(service.create(dto)).build();
     }
 

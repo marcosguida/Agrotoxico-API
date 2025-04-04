@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.net.URI;
 import java.util.List;
 
 /*
@@ -50,7 +49,7 @@ public class AgrotoxicoResource {
     }
 
     @POST
-    public Response create(AgrotoxicoDTO dto) {
+    public Response create(@Valid AgrotoxicoDTO dto) {
         return Response.status(Response.Status.CREATED).entity(service.create(dto)).build();
     }
 
