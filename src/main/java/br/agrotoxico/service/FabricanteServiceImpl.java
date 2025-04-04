@@ -9,9 +9,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+/*
+ * @author Marcos Ribeiro 
+ */
 
 @ApplicationScoped
 public class FabricanteServiceImpl implements FabricanteService {

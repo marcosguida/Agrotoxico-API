@@ -3,6 +3,10 @@ package br.agrotoxico.dto;
 import br.agrotoxico.model.Fabricante;
 import jakarta.validation.constraints.NotBlank;
 
+/*
+ * @author Marcos Ribeiro 
+ */
+
 public class FabricanteDTO {
     @NotBlank(message = "Nome do fabricante não pode ser vazio")
     private String nome;

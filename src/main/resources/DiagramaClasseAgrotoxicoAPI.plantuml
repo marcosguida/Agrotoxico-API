@@ -6,15 +6,12 @@ abstract class DefaultEntity {
   dataAtualizacao: DateTime
   usuarioCriacao: String
   usuarioAtualizacao: String
-  versao: Integer
-  ativo: Boolean
 }
 
 abstract class Pessoa {
   nome: String
   email: String
   senha: String
-  ativo: Boolean
 }
 
 class PessoaFisica {
@@ -40,7 +37,6 @@ class UsuarioAdministrador {
 }
 
 class Endereco {
-  logradouro: String
   numero: String
   complemento: String
   bairro: String

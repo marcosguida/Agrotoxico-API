@@ -2,6 +2,10 @@ package br.agrotoxico.model;
 
 import jakarta.persistence.*;
 
+/*
+ * @author Marcos Ribeiro 
+ */
+
 @Entity
 @Table(name = "agrotoxico")
 public class Agrotoxico {

@@ -11,6 +11,10 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
 
+/*
+ * @author Marcos Ribeiro 
+ */
+
 @Path("/api/fabricante")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -21,8 +25,7 @@ public class FabricanteResource {
 
     @GET
     public Response findAll() {
-        List<FabricanteResponseDTO> fabricantes = service.findAll();
-        return Response.ok(fabricantes).build();
+        return Response.status(Response.Status.OK).entity(service.findAll()).build();
     }
 
     @GET
@@ -40,16 +43,15 @@ public class FabricanteResource {
     }
 
     @POST
-    public Response create(@Valid FabricanteDTO dto) {
-        FabricanteResponseDTO fabricante = service.create(dto);
-        return Response.created(URI.create("/api/fabricante/" + fabricante.id())).entity(fabricante).build();
+    public Response create(FabricanteDTO dto) {
+        return Response.status(Response.Status.CREATED).entity(service.create(dto)).build();
     }
 
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, @Valid FabricanteDTO dto) {
-        FabricanteResponseDTO fabricante = service.update(id, dto);
-        return Response.ok(fabricante).build();
+        service.update(id, dto);
+        return Response.noContent().build();
     }
 
     @DELETE

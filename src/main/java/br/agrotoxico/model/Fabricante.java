@@ -3,6 +3,10 @@ package br.agrotoxico.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+/*
+ * @author Marcos Ribeiro 
+ */
+
 @Entity
 @Table(name = "fabricante")
 public class Fabricante {

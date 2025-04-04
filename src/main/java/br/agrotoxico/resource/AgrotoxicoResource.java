@@ -11,6 +11,10 @@ import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
 
+/*
+ * @author Marcos Ribeiro 
+ */
+
 @Path("/api/agrotoxico")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -21,8 +25,7 @@ public class AgrotoxicoResource {
 
     @GET
     public Response findAll() {
-        List<AgrotoxicoResponseDTO> agrotoxicos = service.findAll();
-        return Response.ok(agrotoxicos).build();
+        return Response.status(Response.Status.OK).entity(service.findAll()).build();
     }
 
     @GET
@@ -47,9 +50,8 @@ public class AgrotoxicoResource {
     }
 
     @POST
-    public Response create(@Valid AgrotoxicoDTO dto) {
-        AgrotoxicoResponseDTO agrotoxico = service.create(dto);
-        return Response.created(URI.create("/api/agrotoxico/" + agrotoxico.id())).entity(agrotoxico).build();
+    public Response create(AgrotoxicoDTO dto) {
+        return Response.status(Response.Status.CREATED).entity(service.create(dto)).build();
     }
 
     @PUT
