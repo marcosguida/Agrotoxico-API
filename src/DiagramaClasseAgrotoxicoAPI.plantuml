@@ -1,5 +1,15 @@
 @startuml
 
+abstract class DefaultEntity {
+  id: Long
+  dataCriacao: DateTime
+  dataAtualizacao: DateTime
+  usuarioCriacao: String
+  usuarioAtualizacao: String
+  versao: Integer
+  ativo: Boolean
+}
+
 abstract class Pessoa {
   nome: String
   email: String
@@ -50,15 +60,13 @@ class Telefone {
 }
 
 class Fabricante {
-  id: Long
   nome: String
   cnpj: String
   telefone: String
   email: String
 }
 
-class Produto {
-  id: Long
+class Agrotoxico {
   nome: String
   descricao: String
   codigoBarras: String
@@ -66,7 +74,6 @@ class Produto {
 }
 
 class Fornecedor {
-  id: Long
   nome: String
   cnpj: String
   telefone: String
@@ -75,7 +82,6 @@ class Fornecedor {
 }
 
 class Estoque {
-  id: Long
   quantidade: Integer
   dataEntrada: Date
   dataValidade: Date
@@ -85,11 +91,33 @@ class Estoque {
 }
 
 class LogAcesso {
-  id: Long 
-  dataHora: Date 
-  enderecoIp: String 
-  tipoLog: TipoLog 
-  descricao: String 
+  dataHora: DateTime
+  enderecoIp: String
+  tipoLog: TipoLog
+  descricao: String
+  navegador: String
+  sistemaOperacional: String
+  usuario: String
+}
+
+class LogAuditoria {
+  dataHora: DateTime
+  entidade: String
+  operacao: TipoOperacao
+  entidadeId: Long
+  valorAntigo: String
+  valorNovo: String
+  usuario: String
+}
+
+class LogErro {
+  dataHora: DateTime
+  mensagem: String
+  stackTrace: String
+  classe: String
+  metodo: String
+  linha: Integer
+  severidade: NivelSeveridade
 }
 
 enum TipoFormulacao {
@@ -107,6 +135,34 @@ enum TipoLog {
   ACESSO
 }
 
+enum TipoOperacao {
+  INSERCAO
+  ATUALIZACAO
+  EXCLUSAO
+  CONSULTA
+}
+
+enum NivelSeveridade {
+  BAIXO
+  REGULAR
+  ALTO
+  CRITICO
+  ERRO
+}
+
+' Herança de DefaultEntity
+DefaultEntity <|-- Pessoa
+DefaultEntity <|-- Endereco
+DefaultEntity <|-- Telefone
+DefaultEntity <|-- Fabricante
+DefaultEntity <|-- Agrotoxico
+DefaultEntity <|-- Fornecedor
+DefaultEntity <|-- Estoque
+DefaultEntity <|-- LogAcesso
+DefaultEntity <|-- LogAuditoria
+DefaultEntity <|-- LogErro
+
+' Herança de Pessoa
 Pessoa <|-- PessoaFisica
 Pessoa <|-- PessoaJuridica
 PessoaFisica <|-- Cliente
@@ -115,11 +171,13 @@ PessoaJuridica <|-- UsuarioAdministrador
 
 Pessoa "1" *-- "*" Endereco : possui >
 Pessoa "1" *-- "*" Telefone : possui >
-Fabricante "1" o-- "*" Produto : produz >
+Fabricante "1" o-- "*" Agrotoxico : produz >
 Fornecedor "1" ..> "*" Estoque : fornece >
-Produto "1" -- "*" Estoque : referencia >
+Agrotoxico "1" -- "*" Estoque : referencia >
 
 UsuarioAdministrador "1" o-- "*" LogAcesso : gera >
+UsuarioAdministrador "1" o-- "*" LogAuditoria : produz >
+UsuarioAdministrador "1" ..> "*" LogErro : registra >
 
 ' Notas
 note top of Cliente
@@ -129,8 +187,18 @@ end note
 
 note top of UsuarioAdministrador
   Usuário Administrador é sempre Pessoa Jurídica
-  Acesso completo: CRUD de produtos, estoque,
-  fabricantes e fornecedores
+  Acesso completo: CRUD de agrotoxicos, estoque,
+  fabricantes e fornecedores.
+end note
+
+note top of DefaultEntity
+  Classe base para todas as entidades
+  Contém campos de auditoria e controle de versão
+end note
+
+note right of LogAuditoria
+  Registra alterações nas entidades
+  com informações de antes e depois
 end note
 
 @enduml
