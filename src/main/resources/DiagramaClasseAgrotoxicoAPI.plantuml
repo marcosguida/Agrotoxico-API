@@ -1,11 +1,12 @@
 @startuml
 
+' Aluno: Marcos Ribeiro Guida
+' TÓPICOS EM PROGRAMAÇÃO I
+' Tema: Agrotóxico
 abstract class DefaultEntity {
   id: Long
   dataCriacao: DateTime
   dataAtualizacao: DateTime
-  usuarioCriacao: String
-  usuarioAtualizacao: String
 }
 
 abstract class Pessoa {
@@ -86,6 +87,21 @@ class Estoque {
   precoVenda: Double
 }
 
+class Compra {
+  dataPedido: DateTime
+  status: StatusCompra
+  valorTotal: Double
+  formaPagamento: FormaPagamento
+  observacoes: String
+}
+
+class ItemCompra {
+  quantidade: Integer
+  valorUnitario: Double
+  valorTotal: Double
+  desconto: Double
+}
+
 class LogAcesso {
   dataHora: DateTime
   enderecoIp: String
@@ -116,6 +132,24 @@ class LogErro {
   severidade: NivelSeveridade
 }
 
+class ContaUsuario {
+  ultimoAcesso: DateTime
+  statusConta: StatusConta
+  tentativasLogin: Integer
+  bloqueado: Boolean
+  dataExpiracaoSenha: Date
+}
+
+class NotaFiscal {
+  numero: String
+  serie: String
+  dataEmissao: DateTime
+  valorTotal: Double
+  xmlNota: String
+  chaveFiscal: String
+  statusNota: StatusNotaFiscal
+}
+
 enum TipoFormulacao {
   SOLUCAO
   SUSPENSAO
@@ -143,10 +177,38 @@ enum NivelSeveridade {
   REGULAR
   ALTO
   CRITICO
-  ERRO
 }
 
-' Heranças 
+enum StatusCompra {
+  AGUARDANDO_PAGAMENTO
+  PAGO
+  EM_SEPARACAO
+  ENVIADO
+  ENTREGUE
+  CANCELADO
+}
+
+enum FormaPagamento {
+  CARTAO_CREDITO
+  BOLETO
+  PIX
+  TRANSFERENCIA
+}
+
+enum StatusConta {
+  ATIVA
+  INATIVA
+  BLOQUEADA
+  PENDENTE_CONFIRMACAO
+}
+
+enum StatusNotaFiscal {
+  EMITIDA
+  CANCELADA
+  ERRO_EMISSAO
+  PENDENTE
+}
+ 
 DefaultEntity <|-- Pessoa
 DefaultEntity <|-- Endereco
 DefaultEntity <|-- Telefone
@@ -157,6 +219,10 @@ DefaultEntity <|-- Estoque
 DefaultEntity <|-- LogAcesso
 DefaultEntity <|-- LogAuditoria
 DefaultEntity <|-- LogErro
+DefaultEntity <|-- Compra
+DefaultEntity <|-- ItemCompra
+DefaultEntity <|-- ContaUsuario
+DefaultEntity <|-- NotaFiscal
 
 Pessoa <|-- PessoaFisica
 Pessoa <|-- PessoaJuridica
@@ -164,28 +230,37 @@ PessoaFisica <|-- Cliente
 PessoaJuridica <|-- Cliente
 PessoaJuridica <|-- UsuarioAdministrador
 
-' Relacionamentos
+Pessoa "1" -- "1" ContaUsuario : possui >
+Compra "1" -- "1" NotaFiscal : gera >
 
 Pessoa "1" *-- "*" Endereco : possui >
 Pessoa "1" *-- "*" Telefone : possui >
-Fabricante "1" o-- "*" Agrotoxico : produz >
-Fornecedor "1" ..> "*" Estoque : fornece >
-Agrotoxico "1" -- "*" Estoque : referencia >
+Fabricante "1" -- "*" Agrotoxico : produz >
+Fornecedor "1" -- "*" Estoque : fornece >
+Agrotoxico "1" -- "*" Estoque : está em >
 
-UsuarioAdministrador "1" o-- "*" LogAcesso : gera >
-UsuarioAdministrador "1" o-- "*" LogAuditoria : produz >
-UsuarioAdministrador "1" ..> "*" LogErro : registra >
+Pessoa "1" -- "*" Compra : realiza >
+Compra "1" *-- "*" ItemCompra : contém >
+Estoque "1" -- "*" ItemCompra : origina >
+Endereco "1" -- "*" Compra : entrega em >
+
+UsuarioAdministrador "1" -- "*" LogAcesso : gera >
+UsuarioAdministrador "1" -- "*" LogAuditoria : produz >
+UsuarioAdministrador "1" -- "*" LogErro : registra >
+
+Fornecedor "*" -- "*" Agrotoxico : fornece >
 
 ' Notas
 note top of Cliente
   Cliente pode ser Pessoa Física ou Jurídica
   Acesso restrito: apenas CRUD da própria conta
+  e compras de produtos
 end note
 
 note top of UsuarioAdministrador
   Usuário Administrador é sempre Pessoa Jurídica
-  Acesso completo: CRUD de agrotoxicos, estoque,
-  fabricantes e fornecedores.
+  Acesso completo: CRUD de produtos, estoque,
+  fabricantes e fornecedores
 end note
 
 note top of DefaultEntity
@@ -196,6 +271,29 @@ end note
 note right of LogAuditoria
   Registra alterações nas entidades
   com informações de antes e depois
+end note
+
+note right of Compra
+  Tanto Cliente quanto UsuarioAdministrador
+  podem realizar compras no sistema,
+  mas devem estar logados
+end note
+
+note right of Endereco
+  Cliente escolhe qual endereço
+  será usado para entrega da compra
+end note
+
+note right of ContaUsuario
+  Relação 1:1 com Pessoa
+  Cada pessoa tem exatamente uma conta
+  e cada conta pertence a exatamente uma pessoa
+end note
+
+note right of NotaFiscal
+  Relação 1:1 com Compra
+  Cada compra gera exatamente uma nota fiscal
+  e cada nota fiscal está associada a exatamente uma compra
 end note
 
 @enduml
