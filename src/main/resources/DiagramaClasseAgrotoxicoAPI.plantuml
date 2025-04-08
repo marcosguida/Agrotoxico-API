@@ -1,8 +1,5 @@
 @startuml
 
-' Aluno: Marcos Ribeiro Guida
-' TÓPICOS EM PROGRAMAÇÃO I
-' Tema: Agrotóxico
 abstract class DefaultEntity {
   id: Long
   dataCriacao: DateTime
