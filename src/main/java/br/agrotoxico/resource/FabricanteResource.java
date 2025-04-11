@@ -11,6 +11,8 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 import java.util.List;
 
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+
 /**
  * @author Marcos Ribeiro 
  */
@@ -69,6 +71,8 @@ public class FabricanteResource {
 
     @DELETE
     @Path("/{id}")
+    @APIResponse(responseCode = "204", description = "Agrotóxico excluído com sucesso")
+    @APIResponse(responseCode = "404", description = "Agrotóxico não encontrado")
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
         return Response.noContent().build();
