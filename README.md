@@ -21,7 +21,7 @@ Comprehensive API for managing pesticides and manufacturers, enabling consultati
 
 ## ENUM
 ### Class TipoFormulação
-```enum
+```
 SOLUCAO,
 SUSPENSAO,
 EMULSAO,
@@ -30,7 +30,7 @@ GRANULADO
 
 ## Agrotoxico Endpoints
 ### Retrieve All Pesticides
-- **GET `/api/agrotoxico`**
+- **GET `/agrotoxico`**
 *Response:*
 ```json
 [
@@ -48,7 +48,7 @@ GRANULADO
 ```
 
 ### Retrieve Pesticide by ID
-- **GET `/api/agrotoxico/{id}`**
+- **GET `/agrotoxico/{id}`**
 *Response:*
 ```json
 {
@@ -64,7 +64,7 @@ GRANULADO
 ```
 
 ### Search Pesticides by Commercial Name
-- **GET `/api/agrotoxico/nome/{nomeComercial}`**
+- **GET `/agrotoxico/nome/{nomeComercial}`**
 *Response:*
 ```json
 {
@@ -80,7 +80,7 @@ GRANULADO
 ```
 
 ### Search Pesticides by Formulation Type
-- **GET `/api/agrotoxico/formulacao/{tipoFormulacao}`**
+- **GET `/agrotoxico/formulacao/{tipoFormulacao}`**
 *Response:*
 ```json
 [
@@ -98,7 +98,7 @@ GRANULADO
 ```
 
 ### Create New Pesticide
-- **POST `/api/agrotoxico`**
+- **POST `/agrotoxico`**
 *Request:*
 ```json
 {
@@ -122,7 +122,7 @@ GRANULADO
 ```
 
 ### Update Pesticide
-- **PUT `/api/agrotoxico/{id}`**
+- **PUT `/agrotoxico/{id}`**
 *Request:*
 ```json
 {
@@ -146,13 +146,13 @@ GRANULADO
 ```
 
 ### Delete Pesticide
-- **DELETE `/api/agrotoxico/{id}`**
+- **DELETE `/agrotoxico/{id}`**
 *Response:*
 ``Status code 204 No Content``
 
 ## Fabricante (Manufacturer) Endpoints
 ### Retrieve All Manufacturers
-- **GET `/api/fabricante`**
+- **GET `/fabricante`**
 *Response:*
 ```json
 [
@@ -165,7 +165,7 @@ GRANULADO
 ```
 
 ### Retrieve Manufacturer by ID
-- **GET `/api/fabricante/{id}`**
+- **GET `/fabricante/{id}`**
 *Response:*
 ```json
 {
@@ -176,7 +176,7 @@ GRANULADO
 ```
 
 ### Search Manufacturers by Name
-- **GET `/api/fabricante/nome/{nome}`**
+- **GET `/fabricante/nome/{nome}`**
 *Response:*
 ```json
 [
@@ -189,7 +189,7 @@ GRANULADO
 ```
 
 ### Create New Manufacturer
-- **POST `/api/fabricante`**
+- **POST `/fabricante`**
 *Request:*
 ```json
 {
@@ -207,7 +207,7 @@ GRANULADO
 ```
 
 ### Update Manufacturer
-- **PUT `/api/fabricante/{id}`**
+- **PUT `/fabricante/{id}`**
 *Request:*
 ```json
 {
@@ -225,7 +225,7 @@ GRANULADO
 ```
 
 ### Delete Manufacturer
-- **DELETE `/api/fabricante/{id}`**
+- **DELETE `/fabricante/{id}`**
 *Response:*
 ``Status code 204 No Content``
 
@@ -237,15 +237,4 @@ GRANULADO
 - Manufacturer CNPJ: `Cannot be blank`
 
 ## Author
-<table>
-    <tr>
-        <td align="center">
-            <a href="#">
-                <img src="https://avatars.githubusercontent.com/u/105091587?s=96&v=4" width="100px;" alt="Marcos Ribeiro Profile Picture"/><br>
-                <sub>
-                    <b>MARCOS RIBEIRO GUIDA</b>
-                </sub>
-            </a>
-        </td>
-    </tr>
-</table>
+MARCOS RIBEIRO GUIDA
