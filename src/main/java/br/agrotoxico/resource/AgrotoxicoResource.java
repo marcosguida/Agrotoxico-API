@@ -8,13 +8,14 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 import java.util.List;
 
-/*
+/**
  * @author Marcos Ribeiro 
  */
 
-@Path("/api/agrotoxico")
+@Path("agrotoxico")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AgrotoxicoResource {
@@ -24,7 +25,8 @@ public class AgrotoxicoResource {
 
     @GET
     public Response findAll() {
-        return Response.status(Response.Status.OK).entity(service.findAll()).build();
+        List<AgrotoxicoResponseDTO> result = service.findAll();
+        return Response.ok(result).build();
     }
 
     @GET
@@ -37,8 +39,8 @@ public class AgrotoxicoResource {
     @GET
     @Path("/nome/{nomeComercial}")
     public Response findByNomeComercial(@PathParam("nomeComercial") String nomeComercial) {
-        AgrotoxicoResponseDTO agrotoxicos = service.findByNomeComercial(nomeComercial);
-        return Response.ok(agrotoxicos).build();
+        AgrotoxicoResponseDTO agrotoxico = service.findByNomeComercial(nomeComercial);
+        return Response.ok(agrotoxico).build();
     }
 
     @GET
@@ -47,17 +49,30 @@ public class AgrotoxicoResource {
         List<AgrotoxicoResponseDTO> agrotoxicos = service.findByTipoFormulacao(tipoFormulacao);
         return Response.ok(agrotoxicos).build();
     }
+    
+    @GET
+    @Path("/fabricante/{fabricanteId}")
+    public Response findByFabricante(@PathParam("fabricanteId") Long fabricanteId) {
+        List<AgrotoxicoResponseDTO> agrotoxicos = service.findByFabricante(fabricanteId);
+        return Response.ok(agrotoxicos).build();
+    }
 
     @POST
     public Response create(@Valid AgrotoxicoDTO dto) {
-        return Response.status(Response.Status.CREATED).entity(service.create(dto)).build();
+        AgrotoxicoResponseDTO created = service.create(dto);
+        return Response.created(
+                UriBuilder.fromResource(AgrotoxicoResource.class)
+                         .path(String.valueOf(created.id()))
+                         .build())
+                .entity(created)
+                .build();
     }
 
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, @Valid AgrotoxicoDTO dto) {
-        AgrotoxicoResponseDTO agrotoxico = service.update(id, dto);
-        return Response.ok(agrotoxico).build();
+        AgrotoxicoResponseDTO updated = service.update(id, dto);
+        return Response.ok(updated).build();
     }
 
     @DELETE

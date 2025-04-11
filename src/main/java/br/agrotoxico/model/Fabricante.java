@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * @author Marcos Ribeiro 
  */
+
 @Entity
 @Table(name = "fabricante")
 public class Fabricante extends DefaultEntity {
@@ -27,7 +28,6 @@ public class Fabricante extends DefaultEntity {
     private List<Agrotoxico> agrotoxicos = new ArrayList<>();
 
     public Fabricante() {
-        // Construtor padrão
     }
 
     public Fabricante(String nome, String cnpj) {

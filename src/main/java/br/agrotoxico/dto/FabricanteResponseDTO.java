@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 /**
  * @author Marcos Ribeiro 
  */
+
 public record FabricanteResponseDTO(
     Long id,
     String nome,

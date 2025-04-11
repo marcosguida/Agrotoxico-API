@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 /**
  * @author Marcos Ribeiro 
  */
+
 public class FabricanteDTO {
     @NotBlank(message = "Nome do fabricante não pode ser vazio")
     @Size(max = 300, message = "Nome do fabricante deve ter no máximo 300 caracteres")

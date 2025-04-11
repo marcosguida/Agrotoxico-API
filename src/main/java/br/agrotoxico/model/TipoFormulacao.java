@@ -1,6 +1,6 @@
 package br.agrotoxico.model;
 
-/*
+/**
  * @author Marcos Ribeiro 
  */
 

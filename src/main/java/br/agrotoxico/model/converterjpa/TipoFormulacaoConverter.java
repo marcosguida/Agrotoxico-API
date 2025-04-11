@@ -7,6 +7,7 @@ import jakarta.persistence.Converter;
 /**
  * @author Marcos Ribeiro
  */
+
 @Converter(autoApply = true)
 public class TipoFormulacaoConverter implements AttributeConverter<TipoFormulacao, String> {
 

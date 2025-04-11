@@ -4,34 +4,33 @@ import br.agrotoxico.dto.FabricanteDTO;
 import br.agrotoxico.dto.FabricanteResponseDTO;
 import br.agrotoxico.model.Fabricante;
 import br.agrotoxico.repository.FabricanteRepository;
-import br.agrotoxico.service.FabricanteService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
+/**
  * @author Marcos Ribeiro 
  */
-
 @ApplicationScoped
 public class FabricanteServiceImpl implements FabricanteService {
 
     @Inject
-    FabricanteRepository fabricanteRepository;
+    FabricanteRepository repository;
 
     @Override
     public FabricanteResponseDTO findById(Long id) {
-        Fabricante fabricante = fabricanteRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado"));
+        Fabricante fabricante = repository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado: " + id));
         return new FabricanteResponseDTO(fabricante);
     }
 
     @Override
     public List<FabricanteResponseDTO> findAll() {
-        return fabricanteRepository.listAll().stream()
+        return repository.listAll().stream()
                 .map(FabricanteResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -39,58 +38,63 @@ public class FabricanteServiceImpl implements FabricanteService {
     @Override
     @Transactional
     public FabricanteResponseDTO create(FabricanteDTO dto) {
-        if (fabricanteRepository.find("cnpj", dto.getCnpj()).firstResult() != null) {
-            throw new IllegalArgumentException("CNPJ já cadastrado");
-        }
-
-        Fabricante fabricante = new Fabricante(dto.getNome(), dto.getCnpj());
-        fabricanteRepository.persist(fabricante);
+        Fabricante fabricante = new Fabricante();
+        fabricante.setNome(dto.getNome());
+        fabricante.setCnpj(dto.getCnpj());
+        fabricante.setTelefone(dto.getTelefone());
+        fabricante.setEmail(dto.getEmail());
+        
+        repository.persist(fabricante);
         return new FabricanteResponseDTO(fabricante);
     }
 
     @Override
     @Transactional
     public FabricanteResponseDTO update(Long id, FabricanteDTO dto) {
-        Fabricante fabricante = fabricanteRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado"));
-
+        Fabricante fabricante = repository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado: " + id));
+        
         fabricante.setNome(dto.getNome());
         fabricante.setCnpj(dto.getCnpj());
-
-        fabricanteRepository.persist(fabricante);
+        fabricante.setTelefone(dto.getTelefone());
+        fabricante.setEmail(dto.getEmail());
+        
+        repository.persist(fabricante);
         return new FabricanteResponseDTO(fabricante);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Fabricante fabricante = fabricanteRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado"));
-        fabricanteRepository.delete(fabricante);
+        Fabricante fabricante = repository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado: " + id));
+        
+        if (!fabricante.getAgrotoxicos().isEmpty()) {
+            throw new BadRequestException("Não é possível excluir o fabricante pois existem agrotóxicos associados");
+        }
+        
+        repository.delete(fabricante);
     }
 
     @Override
     @Transactional
     public void softDelete(Long id) {
-        Fabricante fabricante = fabricanteRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado"));
-        fabricanteRepository.delete(fabricante);
+        delete(id);
     }
 
     @Override
     public List<FabricanteResponseDTO> findByNome(String nome) {
-        return fabricanteRepository.findByNome(nome).stream()
+        return repository.findByNome(nome).stream()
                 .map(FabricanteResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
     @Override
     public FabricanteResponseDTO findByCnpj(String cnpj) {
-        Fabricante fabricante = fabricanteRepository.find("cnpj", cnpj).firstResult();
+        Fabricante fabricante = repository.find("cnpj", cnpj).firstResult();
         if (fabricante == null) {
-            throw new NotFoundException("Fabricante não encontrado");
+            throw new NotFoundException("Fabricante não encontrado com CNPJ: " + cnpj);
         }
         return new FabricanteResponseDTO(fabricante);
     }
-
 }

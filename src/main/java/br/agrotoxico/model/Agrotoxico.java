@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 /**
  * @author Marcos Ribeiro 
  */
+
 @Entity
 @Table(name = "agrotoxico")
 public class Agrotoxico extends DefaultEntity {
@@ -27,7 +28,6 @@ public class Agrotoxico extends DefaultEntity {
     private Fabricante fabricante;
 
     public Agrotoxico() {
-        // Construtor padrão
     }
     
     public Agrotoxico(String nomeComercial, TipoFormulacao tipoFormulacao, Fabricante fabricante) {

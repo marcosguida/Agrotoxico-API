@@ -7,7 +7,6 @@ import br.agrotoxico.model.Fabricante;
 import br.agrotoxico.model.TipoFormulacao;
 import br.agrotoxico.repository.AgrotoxicoRepository;
 import br.agrotoxico.repository.FabricanteRepository;
-import br.agrotoxico.service.AgrotoxicoService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -15,29 +14,28 @@ import jakarta.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
+/**
  * @author Marcos Ribeiro 
  */
-
 @ApplicationScoped
 public class AgrotoxicoServiceImpl implements AgrotoxicoService {
 
     @Inject
-    AgrotoxicoRepository agrotoxicoRepository;
+    AgrotoxicoRepository repository;
 
     @Inject
     FabricanteRepository fabricanteRepository;
 
     @Override
     public AgrotoxicoResponseDTO findById(Long id) {
-        Agrotoxico agrotoxico = agrotoxicoRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Agrotóxico não encontrado"));
+        Agrotoxico agrotoxico = repository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Agrotóxico não encontrado: " + id));
         return new AgrotoxicoResponseDTO(agrotoxico);
     }
 
     @Override
     public List<AgrotoxicoResponseDTO> findAll() {
-        return agrotoxicoRepository.listAll().stream()
+        return repository.listAll().stream()
                 .map(AgrotoxicoResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -46,63 +44,65 @@ public class AgrotoxicoServiceImpl implements AgrotoxicoService {
     @Transactional
     public AgrotoxicoResponseDTO create(AgrotoxicoDTO dto) {
         Fabricante fabricante = fabricanteRepository.findByIdOptional(dto.fabricanteId())
-                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado"));
-
+                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado: " + dto.fabricanteId()));
+        
         Agrotoxico agrotoxico = new Agrotoxico();
         agrotoxico.setNomeComercial(dto.nomeComercial());
+        agrotoxico.setDescricao(dto.descricao());
+        agrotoxico.setCodigoBarras(dto.codigoBarras());
         agrotoxico.setTipoFormulacao(dto.tipoFormulacao());
         agrotoxico.setFabricante(fabricante);
-
-        agrotoxicoRepository.persist(agrotoxico);
+        
+        repository.persist(agrotoxico);
         return new AgrotoxicoResponseDTO(agrotoxico);
     }
 
     @Override
     @Transactional
     public AgrotoxicoResponseDTO update(Long id, AgrotoxicoDTO dto) {
-        Agrotoxico agrotoxico = agrotoxicoRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Agrotóxico não encontrado"));
-
+        Agrotoxico agrotoxico = repository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Agrotóxico não encontrado: " + id));
+                
         Fabricante fabricante = fabricanteRepository.findByIdOptional(dto.fabricanteId())
-                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado"));
-
+                .orElseThrow(() -> new NotFoundException("Fabricante " + dto.fabricanteId() + " não encontrado."));
+        
         agrotoxico.setNomeComercial(dto.nomeComercial());
+        agrotoxico.setDescricao(dto.descricao());
+        agrotoxico.setCodigoBarras(dto.codigoBarras());
         agrotoxico.setTipoFormulacao(dto.tipoFormulacao());
         agrotoxico.setFabricante(fabricante);
-
-        agrotoxicoRepository.persist(agrotoxico);
+        
+        repository.persist(agrotoxico);
         return new AgrotoxicoResponseDTO(agrotoxico);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Agrotoxico agrotoxico = agrotoxicoRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Agrotóxico não encontrado"));
-        agrotoxicoRepository.delete(agrotoxico);
+        Agrotoxico agrotoxico = repository.findByIdOptional(id)
+                .orElseThrow(() -> new NotFoundException("Agrotóxico não encontrado: " + id));
+        repository.delete(agrotoxico);
     }
 
     @Override
     @Transactional
     public void softDelete(Long id) {
-        Agrotoxico agrotoxico = agrotoxicoRepository.findByIdOptional(id)
-                .orElseThrow(() -> new NotFoundException("Agrotóxico não encontrado"));
-        agrotoxicoRepository.delete(agrotoxico);
+        delete(id);
     }
 
     @Override
     public AgrotoxicoResponseDTO findByNomeComercial(String nomeComercial) {
-        List<Agrotoxico> agrotoxicos = agrotoxicoRepository.findByNomeComercial(nomeComercial);
+        List<Agrotoxico> agrotoxicos = repository.findByNomeComercial(nomeComercial);
         if (agrotoxicos.isEmpty()) {
-            throw new NotFoundException("Agrotóxico não encontrado");
+            throw new NotFoundException("Agrotóxico " + nomeComercial + " não encontrado.");
         }
         return new AgrotoxicoResponseDTO(agrotoxicos.get(0));
     }
 
     @Override
     public List<AgrotoxicoResponseDTO> findByTipoFormulacao(String tipoFormulacao) {
-        TipoFormulacao tipo = TipoFormulacao.valueOf(tipoFormulacao);
-        return agrotoxicoRepository.list("tipoFormulacao", tipo).stream()
+        TipoFormulacao tipo = TipoFormulacao.valueOf(tipoFormulacao.toUpperCase());
+        return repository.findByTipoFormulacao(tipo).stream()
                 .map(AgrotoxicoResponseDTO::new)
                 .collect(Collectors.toList());
     }
@@ -110,9 +110,9 @@ public class AgrotoxicoServiceImpl implements AgrotoxicoService {
     @Override
     public List<AgrotoxicoResponseDTO> findByFabricante(Long fabricanteId) {
         Fabricante fabricante = fabricanteRepository.findByIdOptional(fabricanteId)
-                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Fabricante não encontrado: " + fabricanteId));
         
-        return agrotoxicoRepository.list("fabricante", fabricante).stream()
+        return repository.list("fabricante", fabricante).stream()
                 .map(AgrotoxicoResponseDTO::new)
                 .collect(Collectors.toList());
     }

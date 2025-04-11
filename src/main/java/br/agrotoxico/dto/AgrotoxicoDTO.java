@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 /**
  * @author Marcos Ribeiro 
  */
+
 public record AgrotoxicoDTO(
     @NotBlank(message = "Nome comercial não pode ser vazio") 
     @Size(max = 300, message = "Nome comercial deve ter no máximo 300 caracteres")

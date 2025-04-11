@@ -8,14 +8,13 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.net.URI;
+import jakarta.ws.rs.core.UriBuilder;
 import java.util.List;
 
-/*
+/**
  * @author Marcos Ribeiro 
  */
-
-@Path("/api/fabricante")
+@Path("fabricante")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class FabricanteResource {
@@ -25,7 +24,8 @@ public class FabricanteResource {
 
     @GET
     public Response findAll() {
-        return Response.status(Response.Status.OK).entity(service.findAll()).build();
+        List<FabricanteResponseDTO> result = service.findAll();
+        return Response.ok(result).build();
     }
 
     @GET
@@ -41,17 +41,30 @@ public class FabricanteResource {
         List<FabricanteResponseDTO> fabricantes = service.findByNome(nome);
         return Response.ok(fabricantes).build();
     }
+    
+    @GET
+    @Path("/cnpj/{cnpj}")
+    public Response findByCnpj(@PathParam("cnpj") String cnpj) {
+        FabricanteResponseDTO fabricante = service.findByCnpj(cnpj);
+        return Response.ok(fabricante).build();
+    }
 
     @POST
     public Response create(@Valid FabricanteDTO dto) {
-        return Response.status(Response.Status.CREATED).entity(service.create(dto)).build();
+        FabricanteResponseDTO created = service.create(dto);
+        return Response.created(
+                UriBuilder.fromResource(FabricanteResource.class)
+                         .path(String.valueOf(created.id()))
+                         .build())
+                .entity(created)
+                .build();
     }
 
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, @Valid FabricanteDTO dto) {
-        service.update(id, dto);
-        return Response.noContent().build();
+        FabricanteResponseDTO updated = service.update(id, dto);
+        return Response.ok(updated).build();
     }
 
     @DELETE

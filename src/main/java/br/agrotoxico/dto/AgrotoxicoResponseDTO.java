@@ -3,7 +3,7 @@ package br.agrotoxico.dto;
 import br.agrotoxico.model.Agrotoxico;
 import br.agrotoxico.model.TipoFormulacao;
 
-/*
+/**
  * @author Marcos Ribeiro 
  */
 

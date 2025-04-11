@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Classe base para todas as entidades do sistema.
- * 
  * @author Marcos Ribeiro
  */
 @MappedSuperclass
