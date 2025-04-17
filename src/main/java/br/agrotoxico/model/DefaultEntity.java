@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 /**
  * @author Marcos Ribeiro
  */
+
 @MappedSuperclass
 public abstract class DefaultEntity {
 
