@@ -10,7 +10,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 import java.util.List;
-
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 /**
