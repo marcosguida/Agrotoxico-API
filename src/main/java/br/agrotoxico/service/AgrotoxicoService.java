@@ -4,7 +4,7 @@ import br.agrotoxico.dto.AgrotoxicoDTO;
 import br.agrotoxico.dto.AgrotoxicoResponseDTO;
 import java.util.List;
 
-/*
+/**
  * @author Marcos Ribeiro 
  */
 

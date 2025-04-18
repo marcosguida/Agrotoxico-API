@@ -26,3 +26,51 @@ VALUES ('Deltametrina', 'EMULSAO', 1, CURRENT_TIMESTAMP);
 
 INSERT INTO agrotoxico (nomeComercial, tipoFormulacao, fabricante_id, data_criacao) 
 VALUES ('Carbofurano', 'GRANULADO', 2, CURRENT_TIMESTAMP);
+
+-- FORNECEDORES
+INSERT INTO fornecedor (nome, cnpj, telefone, email, website, data_criacao) 
+VALUES ('Agro Distribuidora', '56.789.012/0001-56', '(11) 7890-1234', 'contato@agrodist.com.br', 'www.agrodist.com.br', CURRENT_TIMESTAMP);
+
+INSERT INTO fornecedor (nome, cnpj, telefone, email, website, data_criacao) 
+VALUES ('Agroquímica BR', '67.890.123/0001-67', '(11) 8901-2345', 'vendas@agroquimicabr.com.br', 'www.agroquimicabr.com.br', CURRENT_TIMESTAMP);
+
+INSERT INTO fornecedor (nome, cnpj, telefone, email, website, data_criacao) 
+VALUES ('Rural Suprimentos', '78.901.234/0001-78', '(11) 9012-3456', 'contato@ruralsuprimentos.com.br', 'www.ruralsuprimentos.com.br', CURRENT_TIMESTAMP);
+
+INSERT INTO fornecedor (nome, cnpj, telefone, email, website, data_criacao) 
+VALUES ('AgroTech Distribuidora', '89.012.345/0001-89', '(11) 0123-4567', 'vendas@agrotech.com.br', 'www.agrotech.com.br', CURRENT_TIMESTAMP);
+
+-- RELACIONAMENTO FORNECEDOR_AGROTOXICO
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (1, 1);
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (1, 2);
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (2, 1);
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (2, 3);
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (3, 2);
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (3, 4);
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (4, 3);
+INSERT INTO fornecedor_agrotoxico (fornecedor_id, agrotoxico_id) VALUES (4, 4);
+
+-- ESTOQUE
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (100, '2025-01-10', '2027-01-10', 'GLI2025-001', 150.50, 230.75, 1, 1, CURRENT_TIMESTAMP);
+
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (75, '2025-01-15', '2026-07-15', 'MAN2025-001', 125.30, 195.60, 2, 1, CURRENT_TIMESTAMP);
+
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (50, '2025-02-01', '2027-02-01', 'GLI2025-002', 152.75, 235.40, 1, 2, CURRENT_TIMESTAMP);
+
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (120, '2025-02-05', '2026-08-05', 'DEL2025-001', 180.25, 275.90, 3, 2, CURRENT_TIMESTAMP);
+
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (80, '2025-02-10', '2026-06-10', 'MAN2025-002', 124.50, 192.80, 2, 3, CURRENT_TIMESTAMP);
+
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (60, '2025-02-15', '2026-08-15', 'CAR2025-001', 200.75, 310.50, 4, 3, CURRENT_TIMESTAMP);
+
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (90, '2025-03-01', '2026-09-01', 'DEL2025-002', 178.90, 270.30, 3, 4, CURRENT_TIMESTAMP);
+
+INSERT INTO estoque (quantidade, data_entrada, data_validade, lote, preco_compra, preco_venda, agrotoxico_id, fornecedor_id, data_criacao) 
+VALUES (70, '2025-03-05', '2026-09-05', 'CAR2025-002', 198.25, 305.75, 4, 4, CURRENT_TIMESTAMP);

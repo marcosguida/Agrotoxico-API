@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 /**
  * @author Marcos Ribeiro 
  */
+
 @ApplicationScoped
 public class AgrotoxicoServiceImpl implements AgrotoxicoService {
 

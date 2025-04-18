@@ -1,8 +1,8 @@
 package br.agrotoxico.resource;
 
-import br.agrotoxico.dto.FabricanteDTO;
-import br.agrotoxico.dto.FabricanteResponseDTO;
-import br.agrotoxico.service.FabricanteService;
+import br.agrotoxico.dto.FornecedorDTO;
+import br.agrotoxico.dto.FornecedorResponseDTO;
+import br.agrotoxico.service.FornecedorService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -17,46 +17,46 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
  * @author Marcos Ribeiro 
  */
 
-@Path("fabricante")
+@Path("fornecedor")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class FabricanteResource {
+public class FornecedorResource {
 
     @Inject
-    FabricanteService service;
+    FornecedorService service;
 
     @GET
     public Response findAll() {
-        List<FabricanteResponseDTO> result = service.findAll();
+        List<FornecedorResponseDTO> result = service.findAll();
         return Response.ok(result).build();
     }
 
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) {
-        FabricanteResponseDTO fabricante = service.findById(id);
-        return Response.ok(fabricante).build();
+        FornecedorResponseDTO fornecedor = service.findById(id);
+        return Response.ok(fornecedor).build();
     }
 
     @GET
     @Path("/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome) {
-        List<FabricanteResponseDTO> fabricantes = service.findByNome(nome);
-        return Response.ok(fabricantes).build();
+        List<FornecedorResponseDTO> fornecedores = service.findByNome(nome);
+        return Response.ok(fornecedores).build();
     }
     
     @GET
     @Path("/cnpj/{cnpj}")
     public Response findByCnpj(@PathParam("cnpj") String cnpj) {
-        FabricanteResponseDTO fabricante = service.findByCnpj(cnpj);
-        return Response.ok(fabricante).build();
+        FornecedorResponseDTO fornecedor = service.findByCnpj(cnpj);
+        return Response.ok(fornecedor).build();
     }
 
     @POST
-    public Response create(@Valid FabricanteDTO dto) {
-        FabricanteResponseDTO created = service.create(dto);
+    public Response create(@Valid FornecedorDTO dto) {
+        FornecedorResponseDTO created = service.create(dto);
         return Response.created(
-                UriBuilder.fromResource(FabricanteResource.class)
+                UriBuilder.fromResource(FornecedorResource.class)
                          .path(String.valueOf(created.id()))
                          .build())
                 .entity(created)
@@ -65,15 +65,16 @@ public class FabricanteResource {
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, @Valid FabricanteDTO dto) {
-        FabricanteResponseDTO updated = service.update(id, dto);
+    public Response update(@PathParam("id") Long id, @Valid FornecedorDTO dto) {
+        FornecedorResponseDTO updated = service.update(id, dto);
         return Response.ok(updated).build();
     }
 
     @DELETE
     @Path("/{id}")
-    @APIResponse(responseCode = "204", description = "Agrotóxico excluído com sucesso")
-    @APIResponse(responseCode = "404", description = "Agrotóxico não encontrado")
+    @APIResponse(responseCode = "204", description = "Fornecedor excluído com sucesso")
+    @APIResponse(responseCode = "404", description = "Fornecedor não encontrado")
+    @APIResponse(responseCode = "400", description = "Não é possível excluir fornecedor com estoques associados")
     public Response delete(@PathParam("id") Long id) {
         service.delete(id);
         return Response.noContent().build();
