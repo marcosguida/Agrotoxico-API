@@ -411,5 +411,3 @@ GRANULADO
 
 ## Autor
 Marcos Ribeiro Guida
-```
-
